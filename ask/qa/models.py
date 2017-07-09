@@ -8,7 +8,7 @@ import datetime
 
 class QuestionManager(models.Manager):
 	def new(self):
-		return Question.objects.filter(added_at__gte=timezone.now()-datetime.timedelta(days=5))
+		return Question.objects.filter(added_at__gte=timezone.now()-datetime.timedelta(days=10)).order_by('-added_at')
 	
 	def popular(self):
 		return Question.objects.order_by('-rating')
@@ -24,7 +24,7 @@ class Question (models.Model):
 	
 	objects = QuestionManager()
 	
-	def __str__(self):
+	def __unicode__(self):
 		return self.title
 
 class Answer(models.Model):
@@ -32,6 +32,9 @@ class Answer(models.Model):
 	added_at = models.DateField()
 	question = models.OneToOneField(Question)
 	author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+	
+	def __unicode__(self):
+		return self.text
 
 
 	
