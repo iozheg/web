@@ -10,7 +10,7 @@ def question_details(request, question_id):
 	q = get_object_or_404(Question, pk=question_id)
 	answers = Answer.objects.filter(question__id=question_id)
 	
-	return render(request, 'qa/question_details.html', {'question': q, 'answers': answers})
+	return render(request, 'qa/question_details.html', {'question': q, 'answers': q.answer_set.all()})
 	
 def new_questions(request):
 	
