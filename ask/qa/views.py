@@ -12,13 +12,12 @@ def question_details(request, question_id):
 	q = get_object_or_404(Question, pk=question_id)
 	
 	if request.method == "POST":
-		form = AnswerForm(question_id, request.POST)
-		if form.is_valid():
-			text = request.POST.get('text')
+		form = AnswerForm(request.POST)
+		if form.is_valid():			
 			answer = form.save()
 			return HttpResponseRedirect('/question/' + str(answer.question.id) + '/')
 	else:
-		form = AnswerForm(question_id)
+		form = AnswerForm(initial={'question': question_id})
 			
 	#answers = Answer.objects.filter(question__id=question_id)
 	
