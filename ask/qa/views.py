@@ -1,16 +1,32 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage
 from .models import Question, Answer
+from .forms import AskForm, AnswerForm
 
 def test(request, *args, **kwargs):
 	return HttpResponse('OK')
 
 def question_details(request, question_id):
-	q = get_object_or_404(Question, pk=question_id)
-	answers = Answer.objects.filter(question__id=question_id)
 	
-	return render(request, 'qa/question_details.html', {'question': q, 'answers': q.answer_set.all()})
+	q = get_object_or_404(Question, pk=question_id)
+	
+	if request.method == "POST":
+		form = AnswerForm(question_id, request.POST)
+		if form.is_valid():
+			text = request.POST.get('text')
+			answer = form.save()
+			return HttpResponseRedirect('/question/' + str(answer.question.id) + '/')
+	else:
+		form = AnswerForm(question_id)
+			
+	#answers = Answer.objects.filter(question__id=question_id)
+	
+	return render(request, 'qa/question_details.html', {
+		'question': q, 
+		'answers': q.answer_set.all(), 
+		'form': form,
+	})
 	
 def new_questions(request):
 	
@@ -62,5 +78,15 @@ def popular_questions(request):
 		'page': page
 		})
 
-def create_test_questions():
-	q = Question(title="first")
+def ask_form(request):
+	if request.method == "POST":
+		form = AskForm(request.POST)
+		#before = form.data
+		if form.is_valid():
+			#after = form.data
+			question = form.save()
+			return HttpResponseRedirect('/question/' + str(question.id) + '/')
+	else:
+		form = AskForm()
+	
+	return render(request, 'qa/ask_form.html', {'form':form})

@@ -15,7 +15,7 @@ urlpatterns = [
     #url(r'login/', views.test),
     #url(r'signup/', views.test),
     url(r'question/(?P<question_id>\d+)/$', views.question_details),
-    #url(r'ask/', views.test),
+    url(r'ask/', views.ask_form),
     url(r'popular/', views.popular_questions),
     #url(r'new/', views.test),
     url(r'^$', views.new_questions),

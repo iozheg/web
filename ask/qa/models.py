@@ -25,7 +25,10 @@ class Question (models.Model):
 	objects = QuestionManager()
 	
 	def __unicode__(self):
-		return self.title
+		return u'%s: %s' % (self.title, self.text)
+		
+	def __str__(self):
+		return u'%s: %s' % (self.text, self.text)
 
 class Answer(models.Model):
 	text = models.TextField()
@@ -34,7 +37,10 @@ class Answer(models.Model):
 	author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
 	
 	def __unicode__(self):
-		return self.text
+		return u'%s' % (self.text)
+		
+	def __str__(self):
+		return u'%s' % (self.text)
 
 
 	
