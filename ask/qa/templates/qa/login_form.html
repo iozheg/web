@@ -1,7 +1,7 @@
 <!--
-   question_details.html
+   login_form.html
    
-   Copyright 2017 alex <alex@ubuntu>
+   Copyright 2017 root <root@ubuntu>
    
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -32,35 +32,14 @@
 </head>
 
 <body>
-	<div name="question">
-		<b>Question:</b> <br>
-		<div name="title">{{ question.title }}</div>
-		<div name="text">{{ question.text }}</div>
-		<div name="added">{{ question.added_at }}</div>
-		<div name="author">{{ question.author }}</div>
-		<div name="answers">
-			<b>Answers:</b><br>
-			{% for ans in answers %}
-			<div>{{ ans.text }}</div>
-			{% endfor %}
-		</div>
-		<b>New answer</b>
-		<div name="new answer">
-			<form method="post" action="/question/{{ question.id }}/">
-			{% csrf_token %}
-			{{ form.as_ul }}
-				<button type="submit" class="btn btn-primary">Save</button>
-			</form>
-		</div>
-	</div>
-	
-	<div name='current_user'>
-		{% if user %}
-		{{ user.username }}
-		{% else %}
-		Not logined
-		{% endif %}
-	</div>
+	{% if error %}
+	<div style="color: red;">{{ error }}</div>
+	{% endif %}
+	<form method="post" action="/login/">
+		{% csrf_token %}
+		{{ form.as_ul }}
+		<button type="submit" class="btn btn-primary">Login</button>
+	</form>
 </body>
 
 </html>

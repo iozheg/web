@@ -42,6 +42,7 @@ class Answer(models.Model):
 	def __str__(self):
 		return u'%s' % (self.text)
 
-
-	
-	
+#class Session(models.Model):
+	#sessionid = models.CharField(unique=True)
+	#expires = models.DateTimeField()
+	#user = models.ForeignKey(User, on_delete=models.CASCADE)
